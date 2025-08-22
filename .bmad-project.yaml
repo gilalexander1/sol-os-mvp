@@ -1,0 +1,212 @@
+# BMAD Project Configuration Template
+# This file configures BMAD methodology integration for {{PROJECT_NAME}}
+
+bmad_version: "1.0"
+project_name: "{{PROJECT_NAME}}"
+project_slug: "{{PROJECT_SLUG}}"
+project_type: "{{PROJECT_TYPE}}"
+bmad_compliance: true
+
+# Project Metadata
+metadata:
+  created_by: "bmad-coordinator"
+  created_at: "{{CREATED_DATE}}"
+  description: "{{PROJECT_DESCRIPTION}}"
+  priority: "{{PROJECT_PRIORITY}}"
+  domain_expertise: "{{DOMAIN_EXPERTISE}}"
+
+# BMAD Agent Configuration
+bmad_agents:
+  pm:
+    responsibilities:
+      - "Maintain project-prd.md"
+      - "Create user stories in docs/stories/"
+      - "Define acceptance criteria"
+      - "Coordinate project requirements"
+    
+  architect:
+    responsibilities:
+      - "Maintain docs/architecture.md"
+      - "Make technical decisions"
+      - "Ensure ecosystem integration"
+      - "Define quality standards"
+    
+  dev:
+    responsibilities:
+      - "Coordinate with custom agents"
+      - "Implement features following architecture"
+      - "Maintain code quality standards"
+      - "Handle technical implementation"
+    
+  qa:
+    responsibilities:
+      - "Define and execute quality gates"
+      - "Create testing strategies"
+      - "Validate user story completion"
+      - "Ensure professional quality"
+
+# Ecosystem Integration
+ecosystem_integration:
+  shared_components: true
+  design_system: "space-glass-theme"
+  infrastructure: "shared-docker-compose"
+  database_pattern: "postgresql-sqlalchemy"
+  authentication_pattern: "jwt-bcrypt"
+
+# Custom Agent Integration
+custom_agents:
+  project_creator:
+    role: "Project structure generation"
+    coordination: "Executes BMAD architecture decisions"
+    
+  feature_builder:
+    role: "Feature implementation"
+    coordination: "Follows BMAD user stories and architecture"
+    
+  debugging_assistant:
+    role: "Technical troubleshooting"
+    coordination: "Supports BMAD QA processes"
+
+# Quality Gates Configuration
+quality_gates:
+  automated:
+    code_quality:
+      enabled: true
+      tools: ["eslint", "prettier", "mypy", "pytest"]
+      threshold: 95
+      
+    type_checking:
+      enabled: true
+      tools: ["typescript", "mypy"]
+      strict_mode: true
+      
+    testing:
+      enabled: true
+      coverage_threshold: 80
+      test_frameworks: ["pytest", "jest"]
+      
+    security:
+      enabled: true
+      tools: ["bandit", "safety"]
+      auto_scan: true
+
+  manual:
+    architecture_compliance:
+      enabled: true
+      checklist: "docs/qa/architecture-checklist.md"
+      reviewer: "@architect"
+      
+    user_story_validation:
+      enabled: true
+      criteria: "User story acceptance criteria"
+      reviewer: "@pm"
+      
+    security_review:
+      enabled: true
+      scope: "Authentication and data handling features"
+      reviewer: "@qa"
+
+# Documentation Structure
+documentation:
+  bmad_docs:
+    - "docs/project-prd.md"
+    - "docs/architecture.md"
+    - "docs/epics/"
+    - "docs/stories/"
+    - "docs/qa/"
+    
+  technical_docs:
+    - "README.md"
+    - "API documentation (automatic)"
+    - "Development setup guide"
+    - "Deployment instructions"
+    
+  portfolio_docs:
+    - "Project demonstration materials"
+    - "Technical competency showcase"
+    - "Learning journey documentation"
+
+# Development Workflow
+workflow:
+  planning_phase:
+    bmad_agents: ["@pm", "@architect"]
+    outputs: ["PRD", "Architecture", "User Stories"]
+    duration: "1-2 days per project"
+    
+  implementation_phase:
+    coordination: "@dev coordinates BMAD + custom agents"
+    agents: ["@dev", "feature-builder", "project-creator"]
+    quality_checks: "Continuous automated + milestone manual"
+    
+  validation_phase:
+    bmad_agents: ["@qa"]
+    custom_agents: ["debugging-assistant"]
+    outputs: ["Quality reports", "Test results", "Acceptance validation"]
+
+# Success Metrics
+success_metrics:
+  technical:
+    - "Code quality score > 95%"
+    - "Test coverage > 80%"
+    - "Build success rate > 95%"
+    - "Performance benchmarks met"
+    
+  portfolio:
+    - "Professional-grade documentation"
+    - "Demonstrable technical competency"
+    - "Clear learning progression"
+    - "Interview-ready presentation"
+    
+  bmad_compliance:
+    - "Complete BMAD documentation"
+    - "Quality gates implemented and passing"
+    - "Decision audit trail maintained"
+    - "Systematic approach demonstrated"
+
+# Technology Stack
+technology_stack:
+  backend:
+    framework: "FastAPI"
+    language: "Python 3.11+"
+    database: "PostgreSQL 15"
+    orm: "SQLAlchemy 2.0"
+    authentication: "JWT + bcrypt"
+    testing: "pytest"
+    
+  frontend:
+    framework: "Next.js 15"
+    language: "TypeScript 5+"
+    styling: "Tailwind CSS + shared design system"
+    components: "Shared component library"
+    testing: "Jest + React Testing Library"
+    
+  infrastructure:
+    containerization: "Docker + Docker Compose"
+    database: "PostgreSQL 15 (shared instance)"
+    caching: "Redis 7 (shared instance)"
+    reverse_proxy: "Nginx (development)"
+    
+# Project-Specific Configuration
+project_config:
+  unique_ports:
+    frontend: "{{FRONTEND_PORT}}"
+    backend: "{{BACKEND_PORT}}"
+    postgres: "{{POSTGRES_PORT}}"
+    redis: "{{REDIS_PORT}}"
+    
+  environment:
+    database_url: "{{DATABASE_URL}}"
+    secret_key: "{{SECRET_KEY}}"
+    environment: "development"
+    
+  features:
+    authentication: true
+    api_documentation: true
+    database_migrations: true
+    docker_support: true
+    testing: true
+    shared_components: true
+
+---
+# This configuration file is used by BMAD agents and custom automation
+# to maintain consistency and quality across Gil's development ecosystem

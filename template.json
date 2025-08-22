@@ -1,0 +1,51 @@
+{
+  "name": "FastAPI + Next.js Template",
+  "description": "Full-stack template with FastAPI backend and Next.js frontend",
+  "type": "fastapi-next",
+  "structure": {
+    "backend": {
+      "framework": "FastAPI",
+      "python_version": "3.11",
+      "dependencies": [
+        "fastapi",
+        "uvicorn",
+        "sqlalchemy",
+        "psycopg2-binary",
+        "python-multipart",
+        "python-jose[cryptography]",
+        "passlib[bcrypt]",
+        "redis",
+        "celery",
+        "alembic"
+      ]
+    },
+    "frontend": {
+      "framework": "Next.js 15",
+      "typescript": true,
+      "dependencies": [
+        "react",
+        "react-dom",
+        "next",
+        "typescript",
+        "@types/react",
+        "@types/node",
+        "tailwindcss",
+        "lucide-react",
+        "framer-motion"
+      ]
+    },
+    "database": {
+      "type": "postgresql",
+      "migrations": true,
+      "seeding": true
+    }
+  },
+  "features": {
+    "authentication": true,
+    "api_documentation": true,
+    "database_migrations": true,
+    "docker_support": true,
+    "testing": true,
+    "ci_cd": false
+  }
+}

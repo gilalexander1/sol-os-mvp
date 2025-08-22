@@ -1,0 +1,63 @@
+# Sol OS MVP Docker Ignore
+
+# Version control
+.git
+.gitignore
+
+# Environment files (except .env.example)
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.docker
+
+# Dependencies
+node_modules
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Build artifacts
+.next
+out
+dist
+build
+
+# Development
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+README.md
+docs/
+*.md
+
+# Development tools
+setup.sh
+.pytest_cache
+.coverage

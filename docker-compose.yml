@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Sol OS Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sol-os-mvp-backend
+    ports:
+      - "8004:8004"
+    environment:
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-dev-jwt-secret-key-12345678901234567890123456789012}
+      - DATA_ENCRYPTION_MASTER_KEY=${DATA_ENCRYPTION_MASTER_KEY:-dev-encryption-key-1234567890123456789012345678901234567890123456789012345678901234}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DATABASE_URL=sqlite:///./data/sol_os_mvp.db
+      - DEBUG=false
+      - ENVIRONMENT=production
+    volumes:
+      - backend_data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - sol_network
+
+  # Sol OS Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sol-os-mvp-frontend
+    ports:
+      - "3001:3001"
+    environment:
+      - BACKEND_URL=http://backend:8004
+      - NODE_ENV=production
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - sol_network
+
+volumes:
+  backend_data:
+    driver: local
+
+networks:
+  sol_network:
+    driver: bridge
