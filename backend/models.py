@@ -42,6 +42,13 @@ class User(Base):
     data_export_requested = Column(DateTime)
     data_deletion_requested = Column(DateTime)
     
+    # Google Calendar Integration
+    google_calendar_access_token = Column(LargeBinary)  # Encrypted OAuth token
+    google_calendar_refresh_token = Column(LargeBinary)  # Encrypted refresh token
+    google_calendar_token_expires_at = Column(DateTime)
+    google_calendar_connected = Column(Boolean, default=False)
+    google_calendar_sync_enabled = Column(Boolean, default=True)
+    
     # User encryption key management
     encryption_salt = Column(LargeBinary, nullable=False)
     encryption_key_version = Column(String(10), default="v1")
@@ -165,6 +172,18 @@ class TimeBlock(Base):
     
     # Task integration
     linked_task_id = Column(String(36), ForeignKey("tasks.id"))
+    
+    # Google Calendar sync
+    google_calendar_event_id = Column(String(255))  # Google Calendar event ID
+    google_calendar_sync_enabled = Column(Boolean, default=True)
+    last_synced_at = Column(DateTime)
+    sync_status = Column(String(20), default='pending')  # pending, synced, error
+    sync_error = Column(Text)  # Store sync error messages
+    
+    # Additional calendar fields for Google Calendar compatibility
+    location = Column(String(500))  # Event location
+    description = Column(Text)  # Event description
+    all_day = Column(Boolean, default=False)  # All-day event flag
     
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

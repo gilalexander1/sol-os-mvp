@@ -13,7 +13,7 @@
   --accent-2: #c084fc;
   --ok: #34d399;
   --warn: #f59e0b;
-  --ring: color-mix(in srgb, var(--accent) 60%, white 40%);
+  --ring: #6ea8ff80;
   --radius: 16px;
   --glass-blur: 12px;
 }
@@ -31,41 +31,48 @@
 
 @layer components {
   .glass-card {
-    @apply border rounded-2xl;
-    background: color-mix(in srgb, var(--surface) 85%, white 15%);
-    border-color: color-mix(in srgb, var(--surface) 55%, white 45%);
-    backdrop-filter: blur(var(--glass-blur));
+    @apply border rounded-2xl backdrop-blur-xl;
+    background: rgba(17, 23, 41, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
   }
   
   .btn-primary {
     @apply px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 inline-flex items-center justify-center;
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    color: #0b1020;
-    box-shadow: 0 0 0 0 rgba(0,0,0,0);
+    color: var(--bg);
   }
-  .btn-primary:hover { box-shadow: 0 0 0 2px var(--ring); transform: translateY(-1px); }
+  .btn-primary:hover { 
+    box-shadow: 0 0 0 2px var(--ring); 
+    transform: translateY(-1px); 
+  }
   
   .btn-secondary {
-    @apply px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 inline-flex items-center justify-center;
+    @apply px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 inline-flex items-center justify-center border;
     background: var(--surface-2);
-    border: 1px solid color-mix(in srgb, var(--surface-2) 55%, white 45%);
+    border-color: rgba(255, 255, 255, 0.2);
     color: var(--text);
   }
-  .btn-secondary:hover { box-shadow: 0 0 0 2px var(--ring); }
+  .btn-secondary:hover { 
+    box-shadow: 0 0 0 2px var(--ring); 
+  }
 
   .navbar {
-    @apply border-b;
-    border-color: color-mix(in srgb, var(--surface) 55%, white 45%);
-    background:
-      radial-gradient(1000px 500px at 0% -250px, color-mix(in srgb, var(--accent) 20%, transparent), transparent),
-      radial-gradient(1200px 600px at 80% -200px, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent);
-    backdrop-filter: blur(10px);
+    @apply border-b backdrop-blur-lg;
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(11, 16, 32, 0.8);
   }
 
   .tab {
     @apply flex items-center gap-2 px-3 py-4 text-sm font-medium border-b-2 transition-colors;
-    border-color: transparent; color: #c6cbe0;
+    border-color: transparent; 
+    color: #c6cbe0;
   }
-  .tab:hover { color: var(--text); border-color: color-mix(in srgb, var(--surface) 50%, white 50%); }
-  .tab-active { color: #cdb7ff; border-color: #cdb7ff; }
+  .tab:hover { 
+    color: var(--text); 
+    border-color: rgba(255, 255, 255, 0.3); 
+  }
+  .tab-active { 
+    color: #cdb7ff; 
+    border-color: #cdb7ff; 
+  }
 }

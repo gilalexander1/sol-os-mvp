@@ -35,6 +35,7 @@ from sol_personality import (
     ConversationMemoryService,
     ConversationContext
 )
+from routers import calendar
 
 # Configure structured logging
 structlog.configure(
@@ -87,6 +88,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include routers
+app.include_router(calendar.router)
 
 # Database dependency
 def get_db():

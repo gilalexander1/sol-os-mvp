@@ -5,6 +5,7 @@ import { Brain, MessageSquare, Clock, CheckSquare, Calendar, LogOut, Eye, EyeOff
 import { ChatInterface } from '../components/ChatInterface'
 import { FocusTimer } from '../components/FocusTimer'
 import { TaskManager } from '../components/TaskManager'
+import { CalendarView } from '../components/CalendarView'
 
 interface User {
   id: string
@@ -19,7 +20,7 @@ export default function Home() {
   const [showRegister, setShowRegister] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [loginForm, setLoginForm] = useState({
-    username: '',
+    email: '',
     password: ''
   })
   const [registerForm, setRegisterForm] = useState({
@@ -39,7 +40,7 @@ export default function Home() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('/api/v1/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginForm)
@@ -49,7 +50,7 @@ export default function Home() {
         const userData = await response.json()
         setUser(userData.user)
         setIsAuthenticated(true)
-        localStorage.setItem('token', userData.token)
+        localStorage.setItem('token', userData.access_token)
       } else {
         alert('Login failed')
       }
@@ -67,7 +68,7 @@ export default function Home() {
     }
     
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch('/api/v1/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -81,7 +82,7 @@ export default function Home() {
         const userData = await response.json()
         setUser(userData.user)
         setIsAuthenticated(true)
-        localStorage.setItem('token', userData.token)
+        localStorage.setItem('token', userData.access_token)
       } else {
         alert('Registration failed')
       }
@@ -113,11 +114,11 @@ export default function Home() {
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
                 <input
-                  type="text"
-                  placeholder="Username"
+                  type="email"
+                  placeholder="Email"
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500"
-                  value={loginForm.username}
-                  onChange={(e) => setLoginForm({...loginForm, username: e.target.value})}
+                  value={loginForm.email}
+                  onChange={(e) => setLoginForm({...loginForm, email: e.target.value})}
                   required
                 />
               </div>
@@ -288,17 +289,7 @@ export default function Home() {
               <TaskManager />
             </div>
           )}
-          {activeTab === 'calendar' && (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center text-gray-400">
-                <Calendar className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <h3 className="text-lg font-medium mb-2">Calendar Coming Soon</h3>
-                <p className="text-sm">
-                  Visual time-blocking and schedule management will be available in the next update.
-                </p>
-              </div>
-            </div>
-          )}
+          {activeTab === 'calendar' && <CalendarView />}
         </div>
       </main>
     </div>

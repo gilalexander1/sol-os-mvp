@@ -4,12 +4,12 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: process.env.BACKEND_URL ? `${process.env.BACKEND_URL}/api/:path*` : 'http://localhost:8004/api/:path*',
+        destination: 'http://backend:8004/api/:path*',
       },
     ]
   },
-  // Remove standalone output for Vercel deployment
-  // output: 'standalone',
+  // Standalone output for Docker deployment
+  output: 'standalone',
   
   // Update experimental config for Vercel compatibility
   experimental: {
