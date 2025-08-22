@@ -17,6 +17,7 @@ npm-debug.log*
 # Editor
 .vscode/
 .idea/
+<<<<<<< HEAD
 
 # Python (if any backend here)
 __pycache__/
@@ -27,3 +28,15 @@ venv/
 
 # Docker/other
 *.pid
+=======
+node_modules/
+.next/
+dist/
+out/
+coverage/
+*.log
+.env
+.DS_Store
+.vscode/
+.idea/
+>>>>>>> af5a914 (chore: add .gitignore (ignore node_modules & builds))
