@@ -8,11 +8,11 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from typing import List, Optional
 
-from ..database import get_db
-from ..models import User, TimeBlock
-from ..security import get_current_user
-from ..google_calendar import google_calendar_service
-from ..schemas import TimeBlockResponse, CalendarSyncStatus
+from database import get_db
+from models import User, TimeBlock
+from security import get_current_user
+from google_calendar import google_calendar_service
+from schemas import TimeBlockResponse, CalendarSyncStatus
 
 router = APIRouter(prefix="/api/v1/calendar", tags=["calendar"])
 

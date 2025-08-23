@@ -8,14 +8,14 @@ import {
   MapPin, 
   Edit3, 
   Trash2, 
-  Sync, 
+  RotateCcw, 
   AlertCircle,
   CheckCircle,
   ExternalLink,
   Settings,
   ChevronLeft,
   ChevronRight,
-  Google
+  Globe
 } from 'lucide-react'
 
 interface TimeBlock {
@@ -278,7 +278,7 @@ export function CalendarView({ onTimeBlockSelect }: CalendarViewProps) {
         <div className="flex items-center gap-2">
           {/* Google Calendar Status */}
           <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20">
-            <Google className="w-4 h-4 text-white" />
+            <Globe className="w-4 h-4 text-white" />
             <span className={`text-xs ${syncStatus.connected ? 'text-green-400' : 'text-gray-400'}`}>
               {syncStatus.connected ? 'Connected' : 'Disconnected'}
             </span>
@@ -288,7 +288,7 @@ export function CalendarView({ onTimeBlockSelect }: CalendarViewProps) {
                 disabled={syncing}
                 className="text-xs text-blue-400 hover:text-blue-300 transition-colors disabled:opacity-50"
               >
-                <Sync className={`w-3 h-3 ${syncing ? 'animate-spin' : ''}`} />
+                <RotateCcw className={`w-3 h-3 ${syncing ? 'animate-spin' : ''}`} />
               </button>
             )}
           </div>

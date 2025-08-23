@@ -14,10 +14,10 @@ from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from .database import get_db
-from .models import User, TimeBlock
-from .encryption import encrypt_data, decrypt_data
-from .config import settings
+from database import get_db
+from models import User, TimeBlock
+from security import DataEncryptionService
+from config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +30,7 @@ class GoogleCalendarService:
     ]
     
     def __init__(self):
+        self.encryption_service = DataEncryptionService()
         self.client_config = {
             "web": {
                 "client_id": settings.GOOGLE_CLIENT_ID,
@@ -81,13 +82,15 @@ class GoogleCalendarService:
             credentials = flow.credentials
             
             # Encrypt and store tokens
-            access_token_encrypted = encrypt_data(
-                credentials.token,
-                user.encryption_salt
+            access_token_encrypted = self.encryption_service.encrypt_text(
+                user_id,
+                user.encryption_salt,
+                credentials.token
             )
-            refresh_token_encrypted = encrypt_data(
-                credentials.refresh_token,
-                user.encryption_salt
+            refresh_token_encrypted = self.encryption_service.encrypt_text(
+                user_id,
+                user.encryption_salt,
+                credentials.refresh_token
             ) if credentials.refresh_token else None
             
             # Update user record
@@ -114,14 +117,16 @@ class GoogleCalendarService:
                 return None
             
             # Decrypt tokens
-            access_token = decrypt_data(
-                user.google_calendar_access_token,
-                user.encryption_salt
+            access_token = self.encryption_service.decrypt_text(
+                user.id,
+                user.encryption_salt,
+                user.google_calendar_access_token
             )
             
-            refresh_token = decrypt_data(
-                user.google_calendar_refresh_token,
-                user.encryption_salt
+            refresh_token = self.encryption_service.decrypt_text(
+                user.id,
+                user.encryption_salt,
+                user.google_calendar_refresh_token
             ) if user.google_calendar_refresh_token else None
             
             # Create credentials object
@@ -140,9 +145,10 @@ class GoogleCalendarService:
                 
                 # Update stored tokens
                 db = next(get_db())
-                user.google_calendar_access_token = encrypt_data(
-                    credentials.token,
-                    user.encryption_salt
+                user.google_calendar_access_token = self.encryption_service.encrypt_text(
+                    user.id,
+                    user.encryption_salt,
+                    credentials.token
                 )
                 user.google_calendar_token_expires_at = credentials.expiry
                 db.commit()

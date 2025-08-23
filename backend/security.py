@@ -15,7 +15,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import base64
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 class DataEncryptionService:
@@ -395,3 +396,38 @@ def validate_password_strength(password: str) -> bool:
 def generate_verification_token() -> str:
     """Generate secure verification token"""
     return secrets.token_urlsafe(32)
+
+# Initialize global services
+security = HTTPBearer()
+auth_service = SecureAuthService()
+
+# Authentication dependency
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
+    """Get current authenticated user"""
+    try:
+        from database import get_db
+        from models import User
+        
+        # Get database session
+        db = next(get_db())
+        
+        payload = auth_service.verify_token(credentials.credentials)
+        user_id = payload.get("sub")
+        
+        user = db.query(User).filter(User.id == user_id).first()
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User not found"
+            )
+        
+        return user
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials"
+        )
+    finally:
+        db.close()
