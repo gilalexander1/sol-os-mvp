@@ -64,6 +64,7 @@ class User(Base):
     tasks = relationship("Task", back_populates="user", cascade="all, delete-orphan")
     time_blocks = relationship("TimeBlock", back_populates="user", cascade="all, delete-orphan")
     focus_sessions = relationship("FocusSession", back_populates="user", cascade="all, delete-orphan")
+    journal_entries = relationship("JournalEntry", back_populates="user", cascade="all, delete-orphan")
 
 class Conversation(Base):
     """Encrypted conversation storage with minimal complexity for MVP"""
@@ -220,6 +221,44 @@ class FocusSession(Base):
     # Relationships
     user = relationship("User", back_populates="focus_sessions")
     task = relationship("Task")
+
+class JournalEntry(Base):
+    """ADHD-friendly journal entries with mood tracking and encrypted content"""
+    __tablename__ = "journal_entries"
+    
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.id"), nullable=False)
+    
+    # Entry content (encrypted for privacy)
+    title = Column(LargeBinary)           # Encrypted title
+    content = Column(LargeBinary)         # Encrypted main content
+    
+    # ADHD-specific metadata
+    mood_rating = Column(Integer)         # 1-10 mood scale
+    energy_level = Column(Integer)        # 1-10 energy scale
+    focus_level = Column(Integer)         # 1-10 focus rating
+    anxiety_level = Column(Integer)       # 1-10 anxiety scale
+    
+    # Structured prompts for ADHD support
+    accomplishments = Column(LargeBinary)  # What went well today (encrypted)
+    challenges = Column(LargeBinary)       # What was difficult (encrypted)
+    gratitude = Column(LargeBinary)        # Gratitude notes (encrypted)
+    tomorrow_focus = Column(LargeBinary)   # Main focus for tomorrow (encrypted)
+    
+    # Quick emotional tags for pattern recognition
+    emotional_tags = Column(JSON, default=[])  # ['happy', 'anxious', 'productive', etc.]
+    
+    # Entry metadata
+    entry_date = Column(DateTime, nullable=False, index=True)  # User's intended date
+    is_favorite = Column(Boolean, default=False)
+    is_private = Column(Boolean, default=True)   # Extra privacy flag
+    
+    # Timestamps
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Relationships
+    user = relationship("User", back_populates="journal_entries")
 
 class SecurityAuditLog(Base):
     """Security audit logging for compliance and monitoring"""

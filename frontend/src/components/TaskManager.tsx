@@ -78,7 +78,7 @@ export function TaskManager({ onTaskUpdate }: TaskManagerProps) {
 
   const fetchTasks = async () => {
     try {
-      const token = localStorage.getItem('access_token')
+      const token = localStorage.getItem('token')
       const response = await fetch('/api/v1/tasks', {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -98,7 +98,7 @@ export function TaskManager({ onTaskUpdate }: TaskManagerProps) {
     if (!newTaskTitle.trim()) return
 
     try {
-      const token = localStorage.getItem('access_token')
+      const token = localStorage.getItem('token')
       const response = await fetch('/api/v1/tasks', {
         method: 'POST',
         headers: {
@@ -131,7 +131,7 @@ export function TaskManager({ onTaskUpdate }: TaskManagerProps) {
 
   const updateTaskStatus = async (taskId: string, newStatus: Task['status']) => {
     try {
-      const token = localStorage.getItem('access_token')
+      const token = localStorage.getItem('token')
       const response = await fetch(`/api/v1/tasks/${taskId}`, {
         method: 'PATCH',
         headers: {
@@ -155,7 +155,7 @@ export function TaskManager({ onTaskUpdate }: TaskManagerProps) {
 
   const deleteTask = async (taskId: string) => {
     try {
-      const token = localStorage.getItem('access_token')
+      const token = localStorage.getItem('token')
       const response = await fetch(`/api/v1/tasks/${taskId}`, {
         method: 'DELETE',
         headers: {

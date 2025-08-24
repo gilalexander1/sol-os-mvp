@@ -1,11 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { Brain, MessageSquare, Clock, CheckSquare, Calendar, LogOut, Eye, EyeOff } from 'lucide-react'
+import { Brain, MessageSquare, Clock, CheckSquare, Calendar, BookOpen, LogOut, Eye, EyeOff } from 'lucide-react'
 import { ChatInterface } from '../components/ChatInterface'
 import { FocusTimer } from '../components/FocusTimer'
 import { TaskManager } from '../components/TaskManager'
 import { CalendarView } from '../components/CalendarView'
+import { Journal } from '../components/Journal'
 
 interface User {
   id: string
@@ -34,29 +35,37 @@ export default function Home() {
     { id: 'chat', label: 'Chat', icon: MessageSquare },
     { id: 'focus', label: 'Focus Timer', icon: Clock },
     { id: 'tasks', label: 'Tasks', icon: CheckSquare },
+    { id: 'journal', label: 'Journal', icon: BookOpen },
     { id: 'calendar', label: 'Calendar', icon: Calendar },
   ]
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
+      console.log('Attempting login with:', { email: loginForm.email, password: '***' })
+      
       const response = await fetch('/api/v1/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginForm)
       })
       
+      console.log('Response status:', response.status)
+      
       if (response.ok) {
         const userData = await response.json()
+        console.log('Login successful:', userData.user)
         setUser(userData.user)
         setIsAuthenticated(true)
         localStorage.setItem('token', userData.access_token)
       } else {
-        alert('Login failed')
+        const errorData = await response.text()
+        console.error('Login failed with status:', response.status, 'Error:', errorData)
+        alert(`Login failed: ${response.status}`)
       }
     } catch (error) {
       console.error('Login error:', error)
-      alert('Login failed')
+      alert('Login failed - network error')
     }
   }
 
@@ -289,6 +298,7 @@ export default function Home() {
               <TaskManager />
             </div>
           )}
+          {activeTab === 'journal' && <Journal />}
           {activeTab === 'calendar' && <CalendarView />}
         </div>
       </main>
