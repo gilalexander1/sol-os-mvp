@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Theme tokens (cosmic, subtle) ---- */
+:root {
+  --bg: #0b1020;
+  --surface: #111729;
+  --surface-2: #162037;
+  --text: #e6e9f5;
+  --muted: #9aa3b2;
+  --accent: #6ea8ff;
+  --accent-2: #c084fc;
+  --ok: #34d399;
+  --warn: #f59e0b;
+  --ring: #6ea8ff80;
+  --radius: 16px;
+  --glass-blur: 12px;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply text-white;
+    background: var(--bg);
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply border rounded-2xl backdrop-blur-xl;
+    background: rgba(17, 23, 41, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .btn-primary {
+    @apply px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 inline-flex items-center justify-center;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: var(--bg);
+  }
+  .btn-primary:hover { 
+    box-shadow: 0 0 0 2px var(--ring); 
+    transform: translateY(-1px); 
+  }
+  
+  .btn-secondary {
+    @apply px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 inline-flex items-center justify-center border;
+    background: var(--surface-2);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text);
+  }
+  .btn-secondary:hover { 
+    box-shadow: 0 0 0 2px var(--ring); 
+  }
+
+  .navbar {
+    @apply border-b backdrop-blur-lg;
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(11, 16, 32, 0.8);
+  }
+
+  .tab {
+    @apply flex items-center gap-2 px-3 py-4 text-sm font-medium border-b-2 transition-colors;
+    border-color: transparent; 
+    color: #c6cbe0;
+  }
+  .tab:hover { 
+    color: var(--text); 
+    border-color: rgba(255, 255, 255, 0.3); 
+  }
+  .tab-active { 
+    color: #cdb7ff; 
+    border-color: #cdb7ff; 
+  }
+}
