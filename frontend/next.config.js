@@ -1,18 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Remove Docker-specific rewrites for Vercel deployment
-  // API routes will be handled by Vercel functions
+  // Standard Next.js configuration for Vercel
+  trailingSlash: false,
   
   // Vercel-specific optimizations
   images: {
     domains: [],
   },
-  
-  // Ensure proper API routing for Vercel
-  trailingSlash: false,
-  
-  // Use default output for Vercel
-  // output: 'export' // Only if needed for static export
 }
 
 module.exports = nextConfig

@@ -1,1 +1,16 @@
-{"projectId":"prj_LjgEjAaXtLFyS8z039ojLXmrUN9D","orgId":"team_ud1ycBE95OpfTRxhjr9lwJDA","projectName":"sol-os-mvp"}
+{
+  "projectId": "prj_LjgEjAaXtLFyS8z039ojLXmrUN9D",
+  "orgId": "team_ud1ycBE95OpfTRxhjr9lwJDA",
+  "projectName": "sol-os-mvp",
+  "settings": {
+    "createdAt": 1756027981972,
+    "framework": "nextjs",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": "frontend",
+    "directoryListing": false,
+    "nodeVersion": "22.x"
+  }
+}
