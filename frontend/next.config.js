@@ -1,20 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://backend:8004/api/:path*',
-      },
-    ]
-  },
-  // Standalone output for Docker deployment
-  output: 'standalone',
-  
-  // Update experimental config for Vercel compatibility
-  experimental: {
-    // Remove turbo config for Vercel deployment
-  },
+  // Remove Docker-specific rewrites for Vercel deployment
+  // API routes will be handled by Vercel functions
   
   // Vercel-specific optimizations
   images: {
@@ -23,6 +10,9 @@ const nextConfig = {
   
   // Ensure proper API routing for Vercel
   trailingSlash: false,
+  
+  // Use default output for Vercel
+  // output: 'export' // Only if needed for static export
 }
 
 module.exports = nextConfig
